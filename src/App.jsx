@@ -23,6 +23,36 @@ const App = () => {
             }
         });
     };
+     const handleIncrement = (id) => {
+        setCartItems((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            )
+        );
+    };
+
+    const handleDecrement = (id) => {
+        setCartItems((prev) =>
+            prev.map((item) =>
+                item.id === id && item.quantity > 1
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+            )
+        );
+    };
+
+    const handleQuantityChange = (id, value) => {
+            setCartItems((prev) =>
+                prev.map((item) =>
+                    item.id === id ? { ...item, quantity: value } : item
+                )
+            );
+    };
+
+    const handleRemove = (id) => {
+        setCartItems((prev) => prev.filter((item) => item.id !== id));
+    };
+
 
     return (
         <Router>
@@ -30,7 +60,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop addToCart={handleAddToCart} />} />
-                <Route path="/cart" element={<Cart cartItems={cartItems} />} />
+                <Route path="/cart" element={<Cart cartItems={cartItems} handleIncrement={handleIncrement} handleDecrement={handleDecrement} handleQuantityChange={handleQuantityChange} handleRemove={handleRemove} />} />
             </Routes>
         </Router>
     );
