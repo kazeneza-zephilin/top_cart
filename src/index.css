@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=DM+Serif+Display&family=Poppins:wght@400;600&display=swap');
+@import "tailwindcss";
+
+
+@theme {
+    --color-primary: #2563eb;
+    --color-secondary: #f3f4f6;
+    --color-accent: #ffd700;
+    --font-sans: "Mona Sans", sans-serif;
+    --font-modern-negra: "Modern Negra", sans-serif;
+    --font-serif: "DM Serif Text", serif;
+}
+/* === Global Styles === */
+body {
+  @apply bg-[--color-secondary] text-gray-900;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-semibold text-gray-800;
+  font-family: var(--font-heading);
+}
+
+button {
+  @apply transition duration-200 ease-in-out;
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  color: white;
+  @apply px-4 py-2 rounded font-medium hover:brightness-110;
+}
