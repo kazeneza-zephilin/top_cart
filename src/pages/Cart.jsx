@@ -1,4 +1,8 @@
-export default function CartPage({ cartItems, handleIncrement, handleDecrement, handleQuantityChange, handleRemove  }) {
+import { useContext } from "react";
+import { CartContext } from "../App.jsx";
+
+export default function CartPage() {
+    const { cartItems, handleIncrement, handleDecrement, handleQuantityChange, handleRemove} = useContext(CartContext);
     const totalPrice = cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0

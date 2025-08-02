@@ -1,10 +1,10 @@
-import React from "react";
+import { createContext, useState } from "react";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Shop from "./pages/Shop.jsx";
 import Cart from "./pages/Cart.jsx";
 import Home from "./pages/Home.jsx";
-import { useState } from "react";
+export const CartContext = createContext(null);
 
 const App = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -23,7 +23,7 @@ const App = () => {
             }
         });
     };
-     const handleIncrement = (id) => {
+    const handleIncrement = (id) => {
         setCartItems((prev) =>
             prev.map((item) =>
                 item.id === id ? { ...item, quantity: item.quantity + 1 } : item
@@ -42,27 +42,44 @@ const App = () => {
     };
 
     const handleQuantityChange = (id, value) => {
-            setCartItems((prev) =>
-                prev.map((item) =>
-                    item.id === id ? { ...item, quantity: value } : item
-                )
-            );
+        setCartItems((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, quantity: value } : item
+            )
+        );
     };
 
     const handleRemove = (id) => {
         setCartItems((prev) => prev.filter((item) => item.id !== id));
     };
 
-
     return (
-        <Router>
-            <Navbar cartCount={cartItems.reduce((total, item) => total + item.quantity, 0)} />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop addToCart={handleAddToCart} />} />
-                <Route path="/cart" element={<Cart cartItems={cartItems} handleIncrement={handleIncrement} handleDecrement={handleDecrement} handleQuantityChange={handleQuantityChange} handleRemove={handleRemove} />} />
-            </Routes>
-        </Router>
+        <CartContext.Provider
+            value={{
+                cartItems,
+                handleIncrement,
+                handleDecrement,
+                handleQuantityChange,
+                handleRemove,
+            }}
+        >
+            <Router>
+                <Navbar
+                    cartCount={cartItems.reduce(
+                        (total, item) => total + item.quantity,
+                        0
+                    )}
+                />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route
+                        path="/shop"
+                        element={<Shop addToCart={handleAddToCart} />}
+                    />
+                    <Route path="/cart" element={<Cart />} />
+                </Routes>
+            </Router>
+        </CartContext.Provider>
     );
 };
 
